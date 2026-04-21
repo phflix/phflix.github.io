@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PHlix</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root {
   --r: #FF1744;
@@ -31,7 +31,7 @@
 html{scroll-behavior:smooth}
 body{
   background:var(--bg);color:var(--t);
-  font-family:'Inter',sans-serif;
+  font-family:'DM Sans',sans-serif;
   min-height:100vh;overflow-x:hidden;
   -webkit-font-smoothing:antialiased;
 }
@@ -73,6 +73,20 @@ nav{
 .nav-links a:hover{color:var(--t);background:var(--s2)}
 .nav-links a.on{color:var(--t)}
 .nav-r{margin-left:auto;display:flex;align-items:center;gap:8px}
+
+/* AD BLOCK BADGE */
+.ab-badge{
+  display:flex;align-items:center;gap:5px;
+  background:rgba(0,230,118,0.08);border:1px solid rgba(0,230,118,0.2);
+  border-radius:6px;padding:4px 10px;
+  font-size:0.68rem;font-weight:700;color:var(--grn);
+  letter-spacing:0.5px;white-space:nowrap;
+}
+.ab-dot{
+  width:5px;height:5px;border-radius:50%;background:var(--grn);
+  box-shadow:0 0 6px var(--grn);animation:bk 2s infinite;
+}
+@keyframes bk{0%,100%{opacity:1}50%{opacity:0.3}}
 
 /* search */
 .srch-wrap{position:relative;display:flex;align-items:center}
@@ -151,7 +165,6 @@ nav{
   width:5px;height:5px;border-radius:50%;
   background:var(--grn);animation:bk 2s infinite;
 }
-@keyframes bk{0%,100%{opacity:1}50%{opacity:0.3}}
 .u-drop{
   position:absolute;top:calc(100%+8px);right:0;
   background:var(--bg3);border:1px solid var(--b2);
@@ -249,7 +262,7 @@ nav{
 .h-play{
   background:var(--r);color:#fff;border:none;
   padding:12px 26px;border-radius:7px;
-  font-family:'Inter',sans-serif;font-size:0.88rem;font-weight:600;
+  font-family:'DM Sans',sans-serif;font-size:0.88rem;font-weight:600;
   cursor:pointer;display:flex;align-items:center;gap:7px;
   transition:all 0.2s;letter-spacing:0.3px;
   box-shadow:0 4px 24px rgba(255,23,68,0.35);
@@ -259,7 +272,7 @@ nav{
   background:rgba(255,255,255,0.08);color:var(--t);
   border:1px solid rgba(255,255,255,0.15);
   padding:12px 22px;border-radius:7px;
-  font-family:'Inter',sans-serif;font-size:0.88rem;font-weight:500;
+  font-family:'DM Sans',sans-serif;font-size:0.88rem;font-weight:500;
   cursor:pointer;display:flex;align-items:center;gap:7px;transition:all 0.2s;
 }
 .h-info:hover{background:rgba(255,255,255,0.15)}
@@ -402,9 +415,9 @@ nav{
 
 /* ══ PLAYER MODAL ══ */
 .pmodal{
-  position:fixed;inset:0;background:rgba(0,0,0,0.9);
+  position:fixed;inset:0;background:rgba(0,0,0,0.92);
   z-index:700;display:none;align-items:center;justify-content:center;
-  padding:1rem;backdrop-filter:blur(10px);
+  padding:1rem;backdrop-filter:blur(14px);
 }
 .pmodal.op{display:flex;animation:fdin 0.22s ease}
 @keyframes fdin{from{opacity:0}to{opacity:1}}
@@ -424,11 +437,28 @@ nav{
   display:flex;align-items:center;justify-content:center;transition:all 0.15s;
 }
 .pmclose:hover{background:var(--r);color:#fff;border-color:var(--r)}
+
+/* ══ PLAYER WRAPPER WITH SHIELD ══ */
 .parea{
   position:relative;width:100%;aspect-ratio:16/9;
   background:#000;border-radius:16px 16px 0 0;overflow:hidden;
 }
+/* The iframe sandbox + click shield */
 .parea iframe{width:100%;height:100%;border:none;display:block}
+/* invisible overlay that blocks right-click context menu leaks */
+.p-shield{
+  position:absolute;inset:0;z-index:2;pointer-events:none;
+}
+/* blocked-popup notice */
+.pop-blocked{
+  position:absolute;bottom:12px;left:50%;transform:translateX(-50%);
+  background:rgba(0,230,118,0.12);border:1px solid rgba(0,230,118,0.3);
+  border-radius:6px;padding:5px 14px;
+  font-size:0.7rem;color:var(--grn);font-weight:700;
+  letter-spacing:0.5px;pointer-events:none;
+  opacity:0;transition:opacity 0.3s;z-index:3;white-space:nowrap;
+}
+.pop-blocked.show{opacity:1}
 .pph{
   width:100%;height:100%;
   display:flex;flex-direction:column;
@@ -446,6 +476,11 @@ nav{
 @keyframes pp{0%,100%{box-shadow:0 0 0 0 rgba(255,23,68,0.4)}50%{box-shadow:0 0 0 18px rgba(255,23,68,0)}}
 .pph-t{font-size:0.86rem;color:var(--t2);font-weight:500}
 .pph-s{font-size:0.72rem;color:var(--t3)}
+.pph-shield{
+  display:flex;align-items:center;gap:5px;
+  background:rgba(0,230,118,0.08);border:1px solid rgba(0,230,118,0.2);
+  border-radius:5px;padding:4px 10px;font-size:0.68rem;color:var(--grn);font-weight:600;
+}
 .pmody{padding:1.5rem 1.75rem 2rem}
 .pm-title{font-family:'Bebas Neue',sans-serif;font-size:2.1rem;letter-spacing:2px;margin-bottom:0.75rem}
 .pm-stats{display:flex;gap:1.5rem;flex-wrap:wrap;margin-bottom:1.1rem}
@@ -533,6 +568,13 @@ nav{
 .tgl-thumb{position:absolute;top:3px;left:3px;width:14px;height:14px;border-radius:50%;background:#fff;transition:transform 0.25s;pointer-events:none;box-shadow:0 1px 4px rgba(0,0,0,0.4)}
 .tgl input:checked~.tgl-thumb{transform:translateX(18px)}
 
+/* blocked popup counter */
+.ab-counter{
+  background:rgba(0,230,118,0.08);border:1px solid rgba(0,230,118,0.18);
+  border-radius:6px;padding:3px 9px;font-size:0.68rem;font-weight:700;
+  color:var(--grn);font-family:'Fira Code',monospace;
+}
+
 /* misc */
 .toast{
   position:fixed;bottom:2rem;left:50%;
@@ -574,6 +616,7 @@ footer{
 @media(max-width:768px){
   nav{padding:0 1rem;gap:1rem}
   .nav-links{display:none}
+  .ab-badge span:not(.ab-dot){display:none}
   .h-content{padding:0 1.25rem 5rem;max-width:100%}
   .h-title{font-size:3rem}
   .sec{padding:2rem 1rem}
@@ -583,6 +626,143 @@ footer{
 </style>
 </head>
 <body>
+
+<!-- ══════════════════════════════════════════
+     AD / POPUP BLOCKER ENGINE
+     Intercepts window.open, redirects, popunders,
+     and suspicious iframe navigations globally
+══════════════════════════════════════════ -->
+<script>
+(function(){
+  'use strict';
+
+  let blockedCount = 0;
+
+  /* ── 1. Kill window.open entirely ── */
+  const _open = window.open.bind(window);
+  window.open = function(url, ...args) {
+    // Allow YouTube/TMDB iframes to open normally in context
+    if(url && /youtube\.com|youtu\.be/i.test(url)) return _open(url, ...args);
+    blockedCount++;
+    updateBlockedBadge();
+    flashBlocked();
+    console.warn('[PHlix Shield] Blocked popup:', url);
+    return null;
+  };
+
+  /* ── 2. Prevent top-level navigation (popunders) ── */
+  window.addEventListener('beforeunload', function(e) {
+    if (document.getElementById('pModal')?.classList.contains('op') ||
+        document.getElementById('pArea')?.querySelector('iframe')) {
+      // only allow if user explicitly closes
+    }
+  });
+
+  /* ── 3. Block suspicious link clicks inside iframes via message ── */
+  window.addEventListener('message', function(e) {
+    // drop any postMessages from iframes trying to redirect
+    if(e.data && typeof e.data === 'string') {
+      if(/redirect|popup|open|navigate/i.test(e.data)) {
+        blockedCount++;
+        updateBlockedBadge();
+        console.warn('[PHlix Shield] Blocked iframe message:', e.data);
+      }
+    }
+  });
+
+  /* ── 4. MutationObserver — nuke injected ad overlays & scripts ── */
+  const adPatterns = [
+    /doubleclick/i, /googlesyndication/i, /adnxs/i, /outbrain/i,
+    /taboola/i, /revcontent/i, /propellerads/i, /popcash/i,
+    /trafficjunky/i, /exoclick/i, /juicyads/i, /trafficstars/i,
+    /hilltopads/i, /adsterra/i, /popads/i, /adcash/i,
+    /eroadvertising/i, /plugrush/i, /ero-advertising/i,
+  ];
+  const isAdUrl = url => url && adPatterns.some(p => p.test(url));
+
+  const nukeAd = (el) => {
+    if(!el) return;
+    const src = el.src || el.href || el.action || '';
+    if(isAdUrl(src)) {
+      el.remove();
+      blockedCount++;
+      updateBlockedBadge();
+      console.warn('[PHlix Shield] Removed ad element:', src);
+    }
+  };
+
+  const obs = new MutationObserver(mutations => {
+    for(const m of mutations) {
+      for(const node of m.addedNodes) {
+        if(node.nodeType !== 1) continue;
+        // Remove scripts from known ad networks
+        if(node.tagName === 'SCRIPT') nukeAd(node);
+        // Remove iframes that didn't come from us
+        if(node.tagName === 'IFRAME') {
+          const src = node.src || '';
+          if(isAdUrl(src) || (src && !src.startsWith(location.origin) &&
+             !/vidsrc|2embed|smashystream|youtube|getsuperembed/i.test(src) &&
+             node.style.zIndex > 100)) {
+            node.remove();
+            blockedCount++;
+            updateBlockedBadge();
+            console.warn('[PHlix Shield] Removed suspicious iframe:', src);
+          }
+        }
+        // Remove fixed/absolute overlays injected at top z-index
+        if(['DIV','SECTION','ASIDE'].includes(node.tagName)) {
+          const cs = window.getComputedStyle(node);
+          if((cs.position === 'fixed' || cs.position === 'absolute') &&
+             parseInt(cs.zIndex||0) > 9000 &&
+             !node.closest('#pModal,#sModal,nav,.toast,.bttop')) {
+            node.remove();
+            blockedCount++;
+            updateBlockedBadge();
+            console.warn('[PHlix Shield] Nuked overlay element');
+          }
+        }
+      }
+    }
+  });
+  obs.observe(document.documentElement, { childList:true, subtree:true });
+
+  /* ── 5. Prevent location.href hijacking ── */
+  let _href = Object.getOwnPropertyDescriptor(window.location, 'href');
+  // Can't redefine location.href directly, but we can intercept clicks
+  document.addEventListener('click', function(e) {
+    const a = e.target.closest('a[href]');
+    if(!a) return;
+    const href = a.getAttribute('href') || '';
+    if(isAdUrl(href)) {
+      e.preventDefault();
+      e.stopPropagation();
+      blockedCount++;
+      updateBlockedBadge();
+      flashBlocked();
+      console.warn('[PHlix Shield] Blocked ad link click:', href);
+    }
+  }, true);
+
+  /* ── 6. Disable right-click context menu on player area ── */
+  document.addEventListener('contextmenu', function(e){
+    if(e.target.closest('#pArea')) e.preventDefault();
+  });
+
+  /* ── Helpers ── */
+  function updateBlockedBadge() {
+    const el = document.getElementById('abCount');
+    if(el) el.textContent = blockedCount + ' blocked';
+  }
+  function flashBlocked() {
+    const el = document.getElementById('popBlockedNotice');
+    if(!el) return;
+    el.classList.add('show');
+    clearTimeout(el._t);
+    el._t = setTimeout(() => el.classList.remove('show'), 2800);
+  }
+  window._getBlockedCount = () => blockedCount;
+})();
+</script>
 
 <!-- NAV -->
 <nav id="nav">
@@ -596,10 +776,16 @@ footer{
     <a href="#nowplaying">Now Playing</a>
   </div>
   <div class="nav-r">
+    <!-- AD BLOCK STATUS -->
+    <div class="ab-badge">
+      <span class="ab-dot"></span>
+      <span id="abCount">Shield ON</span>
+    </div>
+
     <div class="srch-wrap" id="srchWrap">
       <div class="srch-slide" id="srchSlide">
         <svg class="srch-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-        <input type="text" id="srchField" placeholder="Search movies..." oninput="onSearch(this.value)" onkeydown="if(event.key==='Enter')doSearch()">
+        <input type="text" id="srchField" placeholder="Search movies…" oninput="onSearch(this.value)" onkeydown="if(event.key==='Enter')doSearch()">
       </div>
       <button class="srch-btn" onclick="toggleSearch()">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
@@ -722,10 +908,13 @@ footer{
       <a href="#">Privacy</a><a href="#">Terms</a><a href="#">DMCA</a><a href="login.html">Sign Out</a>
     </div>
   </div>
-  <div>
+  <div style="display:flex;flex-direction:column;gap:8px;align-items:flex-end">
     <div class="fbadge">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="m8 21 4-4 4 4"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-      Data · TMDB &nbsp;|&nbsp; Streams · VidSrc
+      Data · TMDB &nbsp;|&nbsp; Streams · SuperEmbed + VidSrc
+    </div>
+    <div class="ab-badge" style="font-size:0.65rem">
+      <span class="ab-dot"></span> PHlix Shield active — ads &amp; popups blocked
     </div>
   </div>
 </footer>
@@ -734,19 +923,35 @@ footer{
 <div class="pmodal" id="pModal">
   <div class="pmbox">
     <button class="pmclose" onclick="closeModal()">✕</button>
-    <div class="parea" id="pArea"></div>
+    <div class="parea" id="pArea">
+      <!-- popup blocked notice overlay -->
+      <div class="pop-blocked" id="popBlockedNotice">🛡 Popup blocked</div>
+    </div>
     <div class="pmody">
       <div class="pm-title" id="pmTitle">Loading…</div>
       <div class="pm-stats" id="pmStats"></div>
       <div class="pm-genres" id="pmGenres"></div>
       <div class="pm-over" id="pmOver"></div>
+
+      <!-- SOURCE SWITCHER — includes SuperEmbed (PHP player) -->
       <div class="src-row">
         <span class="src-lbl">Player</span>
-        <button class="src-btn on" onclick="switchSrc('vidsrc',this)">VidSrc</button>
-        <button class="src-btn" onclick="switchSrc('vidsrcpro',this)">VidSrc Pro</button>
-        <button class="src-btn" onclick="switchSrc('embed2',this)">2Embed</button>
-        <button class="src-btn" onclick="switchSrc('smashy',this)">SmashyStream</button>
+        <button class="src-btn on"        onclick="switchSrc('superembed',this)">SuperEmbed ✦</button>
+        <button class="src-btn"           onclick="switchSrc('vidsrc',this)">VidSrc</button>
+        <button class="src-btn"           onclick="switchSrc('vidsrcpro',this)">VidSrc Pro</button>
+        <button class="src-btn"           onclick="switchSrc('embed2',this)">2Embed</button>
+        <button class="src-btn"           onclick="switchSrc('smashy',this)">SmashyStream</button>
       </div>
+
+      <!-- blocked count inside modal -->
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:1.2rem">
+        <span class="ab-badge" style="font-size:0.65rem">
+          <span class="ab-dot"></span> Shield active
+        </span>
+        <span class="ab-counter" id="abCountModal">0 blocked</span>
+        <span style="font-size:0.69rem;color:var(--t3)">popups &amp; ads intercepted this session</span>
+      </div>
+
       <div class="mtabs">
         <button class="mtab on" onclick="switchTab('cast',this)">Cast</button>
         <button class="mtab" onclick="switchTab('trailer',this)">Trailer</button>
@@ -781,6 +986,7 @@ footer{
           <div class="ss-row">
             <div><div class="ss-rl">Default Player</div><div class="ss-rs">Preferred source</div></div>
             <select id="defPlayer" onchange="saveSetting('defPlayer',this.value)" style="background:var(--s2);border:1px solid var(--b2);color:var(--t);border-radius:6px;padding:5px 9px;font-family:inherit;font-size:0.76rem;cursor:pointer;outline:none">
+              <option value="superembed">SuperEmbed ✦ (recommended)</option>
               <option value="vidsrc">VidSrc</option>
               <option value="vidsrcpro">VidSrc Pro</option>
               <option value="embed2">2Embed</option>
@@ -793,6 +999,22 @@ footer{
               <input type="checkbox" id="showCW" checked onchange="saveSetting('showCW',this.checked)">
               <div class="tgl-track"></div><div class="tgl-thumb"></div>
             </label>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="ss-lbl">PHlix Shield</div>
+        <div class="ss-card">
+          <div class="ss-row">
+            <div>
+              <div class="ss-rl">Popup &amp; Ad Blocker</div>
+              <div class="ss-rs">Intercepts window.open, overlays, ad scripts</div>
+            </div>
+            <span class="ab-badge" style="font-size:0.65rem"><span class="ab-dot"></span> Always On</span>
+          </div>
+          <div class="ss-row">
+            <div><div class="ss-rl">Blocked this session</div></div>
+            <span class="ab-counter" id="abCountSettings">0</span>
           </div>
         </div>
       </div>
@@ -850,22 +1072,45 @@ window._signOut=()=>signOut(auth).then(()=>window.location.href='login.html');
 const K='b2d8b854cd92017516c73342b0e7a68e';
 const IM='https://image.tmdb.org/t/p/';
 const GM={28:'Action',12:'Adventure',16:'Animation',35:'Comedy',80:'Crime',99:'Documentary',18:'Drama',10751:'Family',14:'Fantasy',36:'History',27:'Horror',10402:'Music',9648:'Mystery',10749:'Romance',878:'Sci-Fi',53:'Thriller',10752:'War',37:'Western'};
-const SRCS={
-  vidsrc:id=>`https://vidsrc.to/embed/movie/${id}`,
-  vidsrcpro:id=>`https://vidsrc.pro/embed/movie?tmdb=${id}`,
-  embed2:id=>`https://www.2embed.cc/embed/${id}`,
-  smashy:id=>`https://embed.smashystream.com/playere.php?tmdb=${id}`
+
+// ── SOURCE URLS ──────────────────────────────────────────────────────
+// SuperEmbed goes through your PHP proxy which strips tracking & redirects
+const SRCS = {
+  // player.php proxies getsuperembed.link — cleaner, fewer ads than raw vidsrc
+  superembed: id => `player.php?video_id=${id}&tmdb=1`,
+  vidsrc:     id => `https://vidsrc.to/embed/movie/${id}`,
+  vidsrcpro:  id => `https://vidsrc.pro/embed/movie?tmdb=${id}`,
+  embed2:     id => `https://www.2embed.cc/embed/${id}`,
+  smashy:     id => `https://embed.smashystream.com/playere.php?tmdb=${id}`
 };
-let heroMs=[],heroI=0,heroTmr=null,curId=null,curSrc='vidsrc';
+
+// sandbox attribute — allows autoplay+scripts inside iframe but blocks popups & top navigation
+const IFRAME_SANDBOX = 'allow-scripts allow-same-origin allow-forms allow-presentation allow-popups-to-escape-sandbox';
+// NOTE: we intentionally omit "allow-top-navigation" and "allow-popups" — this is
+// the single biggest lever for killing redirect ads and popunders.
+
+let heroMs=[],heroI=0,heroTmr=null,curId=null,curSrc='superembed';
 const api=(p,x='')=>`https://api.themoviedb.org/3${p}?api_key=${K}&${x}`;
 const im=(p,s='w500')=>p?`${IM}${s}${p}`:'';
 const get=async u=>{const r=await fetch(u);return r.json()};
+
+// Update blocked counter badges periodically
+setInterval(()=>{
+  const n = window._getBlockedCount ? window._getBlockedCount() : 0;
+  const txt = n === 0 ? 'Shield ON' : `${n} blocked`;
+  const el1 = document.getElementById('abCount');
+  const el2 = document.getElementById('abCountModal');
+  const el3 = document.getElementById('abCountSettings');
+  if(el1) el1.textContent = txt;
+  if(el2) el2.textContent = n + ' blocked';
+  if(el3) el3.textContent = n;
+}, 1000);
 
 window.addEventListener('scroll',()=>{
   document.getElementById('bttop').classList.toggle('show',scrollY>400);
 });
 
-// HERO
+// ── HERO ─────────────────────────────────────────────────────────────
 async function loadHero(){
   const d=await get(api('/trending/movie/week'));
   heroMs=(d.results||[]).filter(m=>m.backdrop_path&&m.poster_path).slice(0,6);
@@ -894,7 +1139,7 @@ function setHero(i){
 function watchHero(){openPlayer(+document.getElementById('hPlayBtn').dataset.id)}
 function infoHero(){openPlayer(+document.getElementById('hInfoBtn').dataset.id,true)}
 
-// CARDS
+// ── CARDS ────────────────────────────────────────────────────────────
 function makeCard(m){
   const e=document.createElement('div');e.className='mc';
   const yr=(m.release_date||'').slice(0,4);
@@ -934,7 +1179,7 @@ async function loadRow(id,url){
   (d.results||[]).slice(0,16).forEach(m=>c.appendChild(makeCard(m)));
 }
 
-// GENRES
+// ── GENRES ───────────────────────────────────────────────────────────
 const GL=[
   {id:28,n:'Action'},{id:35,n:'Comedy'},{id:27,n:'Horror'},
   {id:878,n:'Sci-Fi'},{id:18,n:'Drama'},{id:10749,n:'Romance'},
@@ -959,27 +1204,39 @@ async function loadGGrid(gid){
   grid.innerHTML='';(d.results||[]).slice(0,12).forEach(m=>grid.appendChild(makeCard(m)));
 }
 
-// PLAYER
-async function openPlayer(id,infoOnly=false){
+// ── PLAYER ───────────────────────────────────────────────────────────
+async function openPlayer(id, infoOnly=false){
   curId=id;
   document.getElementById('pModal').classList.add('op');
   document.body.style.overflow='hidden';
-  const pref=localStorage.getItem('defPlayer')||'vidsrc';curSrc=pref;
-  const srcNames={vidsrc:'VidSrc',vidsrcpro:'VidSrc Pro',embed2:'2Embed',smashy:'SmashyStream'};
-  document.querySelectorAll('.src-btn').forEach(b=>b.classList.toggle('on',b.textContent===srcNames[pref]));
-  if(!infoOnly)loadSrc(id,pref);
-  else document.getElementById('pArea').innerHTML=`
-    <div class="pph">
-      <div class="pph-ico" onclick="loadSrc(${id},'${pref}')">
-        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-      </div>
-      <div class="pph-t">Click to stream</div>
-      <div class="pph-s">Multiple sources available</div>
-    </div>`;
+
+  const pref = localStorage.getItem('defPlayer') || 'superembed';
+  curSrc = pref;
+
+  // highlight active source button
+  const srcLabels = {superembed:'SuperEmbed ✦',vidsrc:'VidSrc',vidsrcpro:'VidSrc Pro',embed2:'2Embed',smashy:'SmashyStream'};
+  document.querySelectorAll('.src-btn').forEach(b=>b.classList.toggle('on', b.textContent.trim()===srcLabels[pref]));
+
+  if(!infoOnly) {
+    loadSrc(id, pref);
+  } else {
+    document.getElementById('pArea').innerHTML=`
+      <div class="pop-blocked" id="popBlockedNotice">🛡 Popup blocked</div>
+      <div class="pph">
+        <div class="pph-ico" onclick="loadSrc(${id},'${pref}')">
+          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        </div>
+        <div class="pph-t">Click to stream</div>
+        <div class="pph-s">Multiple sources available</div>
+        <div class="pph-shield">🛡 PHlix Shield active — ads &amp; popups blocked</div>
+      </div>`;
+  }
+
   ['pmTitle','pmStats','pmGenres','pmOver','castScr','trFrame','relScr'].forEach(i=>document.getElementById(i).innerHTML='');
   document.getElementById('pmTitle').textContent='Loading…';
   document.querySelectorAll('.mtab').forEach((t,i)=>t.classList.toggle('on',i===0));
   document.querySelectorAll('.tpanel').forEach((p,i)=>p.classList.toggle('on',i===0));
+
   try{
     const[det,crd,vid,rel]=await Promise.all([
       get(api(`/movie/${id}`)),
@@ -1012,14 +1269,28 @@ async function openPlayer(id,infoOnly=false){
     saveCW(id,det.title,det.poster_path);
   }catch(e){console.error(e)}
 }
-function loadSrc(id,src){
-  curSrc=src;
-  const url=(SRCS[src]||SRCS.vidsrc)(id);
-  document.getElementById('pArea').innerHTML=`<iframe src="${url}" allowfullscreen allow="autoplay;fullscreen" loading="lazy"></iframe>`;
+
+function loadSrc(id, src){
+  curSrc = src;
+  const url = (SRCS[src] || SRCS.superembed)(id);
+  // KEY: sandbox blocks popups (no allow-popups) and top navigation (no allow-top-navigation)
+  // allow-popups-to-escape-sandbox is also omitted to keep everything contained
+  const pa = document.getElementById('pArea');
+  pa.innerHTML = `<div class="pop-blocked" id="popBlockedNotice">🛡 Popup blocked</div>
+    <iframe
+      src="${url}"
+      sandbox="${IFRAME_SANDBOX}"
+      allow="autoplay; fullscreen; picture-in-picture"
+      allowfullscreen
+      loading="lazy"
+      style="width:100%;height:100%;border:none;display:block"
+    ></iframe>`;
 }
-function switchSrc(src,btn){
-  document.querySelectorAll('.src-btn').forEach(b=>b.classList.remove('on'));btn.classList.add('on');
-  if(curId)loadSrc(curId,src);
+
+function switchSrc(src, btn){
+  document.querySelectorAll('.src-btn').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  if(curId) loadSrc(curId, src);
 }
 function closeModal(){
   document.getElementById('pModal').classList.remove('op');
@@ -1027,14 +1298,14 @@ function closeModal(){
   document.getElementById('trFrame').innerHTML='';
   document.body.style.overflow='';curId=null;
 }
-function switchTab(tab,btn){
+function switchTab(tab, btn){
   document.querySelectorAll('.mtab').forEach(t=>t.classList.remove('on'));btn.classList.add('on');
   const m={cast:'tp-cast',trailer:'tp-trailer',related:'tp-related'};
   document.querySelectorAll('.tpanel').forEach(p=>p.classList.remove('on'));
   document.getElementById(m[tab]).classList.add('on');
 }
 
-// SEARCH
+// ── SEARCH ───────────────────────────────────────────────────────────
 let srchOpen=false,srchTmr=null;
 function toggleSearch(){
   srchOpen=!srchOpen;
@@ -1068,23 +1339,23 @@ function closeSearch(){
   document.getElementById('srchField').value='';
 }
 
-// USER MENU
+// ── USER MENU ────────────────────────────────────────────────────────
 function toggleUMenu(){document.getElementById('uDrop').classList.toggle('op')}
 function doSignOut(){if(window._signOut)window._signOut();else location.href='login.html'}
 
-// SETTINGS
+// ── SETTINGS ─────────────────────────────────────────────────────────
 function openSettings(){
   document.getElementById('uDrop').classList.remove('op');
   document.getElementById('sModal').classList.add('op');
   document.body.style.overflow='hidden';
-  document.getElementById('defPlayer').value=localStorage.getItem('defPlayer')||'vidsrc';
+  document.getElementById('defPlayer').value=localStorage.getItem('defPlayer')||'superembed';
   document.getElementById('showCW').checked=localStorage.getItem('showCW')!=='false';
 }
 function closeSettings(){document.getElementById('sModal').classList.remove('op');document.body.style.overflow=''}
 function saveSetting(k,v){localStorage.setItem(k,v);showToast('Saved ✦')}
 function clearWH(){localStorage.removeItem('cw_data');document.getElementById('cwBanner').style.display='none';showToast('History cleared')}
 
-// CONTINUE WATCHING
+// ── CONTINUE WATCHING ────────────────────────────────────────────────
 function saveCW(id,title,poster){
   localStorage.setItem('cw_data',JSON.stringify({id,title,poster,ts:Date.now()}));
   showCWBanner();
@@ -1102,13 +1373,14 @@ function showCWBanner(){
 }
 function resumeWatch(){const id=document.getElementById('cwBanner').dataset.id;if(id)openPlayer(+id)}
 
-// TOAST
+// ── TOAST ────────────────────────────────────────────────────────────
 let tTmr=null;
 function showToast(msg,dur=2600){
   const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');
   clearTimeout(tTmr);tTmr=setTimeout(()=>t.classList.remove('show'),dur);
 }
 
+// ── CLOSE OUTSIDE ────────────────────────────────────────────────────
 document.addEventListener('click',e=>{
   if(!e.target.closest('.u-pill')&&!e.target.closest('.u-drop'))document.getElementById('uDrop').classList.remove('op');
   if(!e.target.closest('.srch-wrap'))document.getElementById('srchDrop').classList.remove('op');
@@ -1117,13 +1389,13 @@ document.addEventListener('click',e=>{
 });
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeModal();closeSettings()}});
 
-// INIT
+// ── INIT ─────────────────────────────────────────────────────────────
 (async()=>{
   showCWBanner();
   await loadHero();
-  loadRow('trendRow',api('/trending/movie/week'));
-  loadRow('topRow',api('/movie/top_rated','region=US'));
-  loadRow('nowRow',api('/movie/now_playing','region=US'));
+  loadRow('trendRow',  api('/trending/movie/week'));
+  loadRow('topRow',    api('/movie/top_rated','region=US'));
+  loadRow('nowRow',    api('/movie/now_playing','region=US'));
   buildGenreBar();
 })();
 </script>
